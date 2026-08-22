@@ -116,6 +116,8 @@ The offline suite proves our wiring against `MockNestClient` (which mirrors the 
 
 - **Audit attribution.** Every action posts under one shared service token, so the nest's audit trail records the *service account*, not the real person. Names in comments/approvals are self-asserted (forgeable, not authenticated). Per-user identity pass-through is roadmap, not shipped — the UI labels this wherever it matters.
 - **A proxy is required.** There is no tokenless deployment.
+- **The proxy has no authn of its own.** `/api/intent/*` accepts self-asserted author names from any caller that can reach it. Localhost demo is fine; a deployed proxy must sit behind your auth boundary (SSO/IAP/session) before anyone lets it approve things.
+- **Governed-definition HTML renders raw.** The drawer's v1 governed-definition block interpolates nest-authored HTML directly (fixture markup uses `<code>`/`<b>`). User-generated fields (comments, authors) are HTML-escaped everywhere — but if you render nest frontmatter you don't fully trust, sanitize it or restrict it to markdown first.
 - **dbt-first.** The metadata seam is a stable adapter interface (`ManifestAdapter`); warehouse/catalog/OpenLineage adapters can slot in behind it, but only dbt artifacts ship here.
 
 ## License
