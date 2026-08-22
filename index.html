@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DataXray — trust the number without leaving the number</title>
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="./widget/styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="dot" aria-hidden="true"></span> DataXray <small>trust the number without leaving the number</small></div>
+
+  <div class="segment" role="tablist" aria-label="Surface">
+    <button role="tab" id="tab-dash" aria-selected="true" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button role="tab" id="tab-chat" aria-selected="false" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Chat on data
+    </button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <button class="outage" id="outageBtn" type="button" aria-pressed="false" title="Simulate the provider (nest/dbt artifacts) being unreachable">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.4 5.6a9 9 0 1 1-12.8 0"/><path d="M12 2v8"/></svg>
+    <span class="outage-label">Simulate outage</span>
+  </button>
+
+  <div class="pings" title="Priya's ROI: trust questions the widget answered without a Slack ping or a meeting">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <b id="pingCount">18</b>&nbsp;pings deflected this week
+  </div>
+
+  <div class="persona">
+    Viewing as
+    <select id="whoSel" aria-label="Switch persona">
+      <option value="marcus">Marcus · RevOps (consumer)</option>
+      <option value="priya">Priya · Steward (owner)</option>
+    </select>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="deploy-note">
+    <span class="ico">ⓘ</span>
+    <div><b>Deployment reality:</b> the widget in your browser never holds the nest token. Every read and governed write goes browser → <b>your team's small proxy</b> (server-side, holds the <code>cnst_</code> key) → hosted Context Nest. "Drop-in" means a snippet <b>plus</b> a proxy you host. This demo runs the same code against a mock nest in-page.</div>
+  </div>
+
+  <div id="surface-dash">
+    <section class="hero" aria-label="Dashboard trust at a glance">
+      <span class="kicker">Zero-click glance</span>
+      <h2>Dashboard trust at a glance</h2>
+      <p class="lede">Every number carries a live governance verdict read from the definition of record: the current compiled-SQL fingerprint vs. the human-approved baseline. Red means don't quote it. Scan first; click only where you need the receipt.</p>
+      <div class="heatmap" id="heatmap"></div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--ok)"></i> Certified &amp; current</span>
+        <span><i class="swatch" style="background:var(--pend)"></i> Change pending review</span>
+        <span><i class="swatch" style="background:var(--warn)"></i> Stale — can't confirm current</span>
+        <span><i class="swatch" style="background:var(--bad)"></i> Drifted — stop</span>
+        <span><i class="swatch" style="background:var(--unknown)"></i> Awaiting approval / unmapped</span>
+      </div>
+    </section>
+
+    <div class="section-title"><h3>Q3 Revenue Board</h3><span class="rule"></span></div>
+    <div class="grid" id="tileGrid"></div>
+
+    <div class="hint-strip">
+      Click any <span class="kbd">badge</span> to disclose definition → drift receipt → governor → discussion. Press <span class="kbd">Esc</span> to close.
+    </div>
+
+    <div class="foot-honesty">
+      <p><span class="tag-known">KNOWN LIMITATION</span> <b>Audit attribution.</b> Every action posts under one shared service token, so the nest's audit trail records the <b>service account</b> as the actor — not the real person. Names shown in comments and approvals are <b>self-asserted</b> (forgeable, not authenticated). Real per-user identity pass-through is on the roadmap, not shipped — this UI never pretends the trail names Marcus or Priya yet.</p>
+      <p><span class="tag-known">HONEST DRIFT</span> <b>No machine self-approval.</b> The ingester only ever writes a new <i>draft/current</i> version carrying the current fingerprint. It never authors an "approved" fingerprint and never moves the baseline. Only a human <code>approve</code> re-pins <code>approvedVersion</code> — that is the one act that blesses a fingerprint.</p>
+    </div>
+  </div>
+
+  <div id="surface-chat" class="hidden">
+    <div class="section-title"><h3>Chat on data</h3><span class="rule"></span></div>
+    <div class="chat" id="chatFeed"></div>
+    <div class="hint-strip">
+      Same badge, same panel — parity with dashboard tiles. The least-trustable surface becomes the most accountable.
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"><span class="ok-dot">✓</span> <span><span id="toastMsg"></span><div id="toastSub" style="font-size:11.5px;color:var(--text-faint);margin-top:2px"></div></span></div>
+
+<script type="module" src="./app.mjs"></script>
+</body>
+</html>
