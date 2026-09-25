@@ -13,6 +13,9 @@ export const VERDICT = Object.freeze({
   CERTIFIED: 'certified',
   DRIFTED: 'drifted',
   UNCERTIFIED: 'uncertified',
+  // Approvals turned off by host config: fresh, available data with no approval step.
+  // Never produced by computeVerdict; only by governedEvidence({approvals:false}).
+  UNGOVERNED: 'ungoverned',
 });
 
 /**
@@ -102,6 +105,8 @@ export function verdictLabel(verdict, opts = {}) {
       return "Stale · can't confirm current";
     case VERDICT.UNCERTIFIED:
       return 'Awaiting first approval';
+    case VERDICT.UNGOVERNED:
+      return 'Approval not required';
     default:
       return 'Unknown';
   }

@@ -16,3 +16,14 @@ export {
 } from './verdict.mjs';
 export { assembleLlmNarrationInput } from './llm.mjs';
 export { VERDICT, driftVerdict, computeVerdict, verdictLabel } from './govern.mjs';
+export {
+  DEFAULT_EVIDENCE_MAX_AGE_MS,
+  EMPTY_GOVERNANCE,
+  stableJson,
+  definitionFingerprint,
+  isEvidenceFresh,
+  isEvidenceAvailable,
+  isVerifiableEvidence,
+  governedEvidence,
+  evidenceStatus,
+} from './evidence.mjs';

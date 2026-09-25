@@ -1,6 +1,6 @@
 {
   "name": "dataxray",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Drop-in provenance and governance affordance for dashboard numbers and chat-on-data answers — deterministic SQL-fingerprint drift verdicts against human-approved baselines governed in Context Nest.",
   "type": "module",
   "license": "MIT",
@@ -8,7 +8,14 @@
     "node": ">=18"
   },
   "exports": {
-    "./core": "./core/index.mjs",
+    "./core": {
+      "types": "./core/index.d.ts",
+      "default": "./core/index.mjs"
+    },
+    "./contracts": {
+      "types": "./contracts/index.d.ts",
+      "default": "./contracts/index.mjs"
+    },
     "./provider": "./provider/provider.mjs",
     "./provider/nest-client": "./provider/nest-client.mjs",
     "./provider/mock-nest-client": "./provider/mock-nest-client.mjs",
